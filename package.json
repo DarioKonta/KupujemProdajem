@@ -8,9 +8,13 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+  "node": ">=18"
+},
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/node": "^22.20.2",
     "typescript": "^7.0.2"
   }
+  
 }

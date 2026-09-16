@@ -1,6 +1,6 @@
 import {test , expect, Locator} from '@playwright/test'
 
-const LISTING_URL = 'https://www.kupujemprodajem.com/'
+const LISTING_URL = '/'
 
 test.use({headless: true, launchOptions: {slowMo: 0}});
 
@@ -28,7 +28,9 @@ test ('Dodati u adresar otvara login formu', async ({page}) => {
         
         const dodajBtn = page.locator('button').filter({hasText: 'Dodajte u Adresar'});
         const hasDodaj = await appears(dodajBtn)
+        
         console.log('iteration', i, 'hasDodaj', hasDodaj)   
+
         if(!hasDodaj){
             await page.goBack();
             await expect(items.first()).toBeVisible()

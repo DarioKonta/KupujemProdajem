@@ -5,7 +5,7 @@ const MIN_EXPECTED_RESULTS = 800; // per assignment spec; adjust if business req
 test.use({headless: true, launchOptions: {slowMo: 0}});
 
 test('search filter Odeća | Ženska > Bluze vraca vise od 1000 rezulata', async ({ page }) => {
-    await page.goto('https://www.kupujemprodajem.com/');
+    await page.goto('/');
     await page.getByRole('button', {name: 'Sve kategorije'}).click();
     await page.getByRole(('button'), {name: 'Odeća i obuća'}).click();
     await page.getByRole(('button'), {name: 'Ženska odeća'}).click();
