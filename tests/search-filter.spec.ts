@@ -2,9 +2,9 @@ import {test, expect } from '@playwright/test'
 
 const MIN_EXPECTED_RESULTS = 800; // per assignment spec; adjust if business requirement changes
 
-test.use({headless: false, launchOptions: {slowMo: 0}});
+test.use({headless: true, launchOptions: {slowMo: 0}});
 
-test('search filter for Odeća | Ženska > Bluze returns more than 1000 results', async ({ page }) => {
+test('search filter Odeća | Ženska > Bluze vraca vise od 1000 rezulata', async ({ page }) => {
     await page.goto('https://www.kupujemprodajem.com/');
     await page.getByRole('button', {name: 'Sve kategorije'}).click();
     await page.getByRole(('button'), {name: 'Odeća i obuća'}).click();
