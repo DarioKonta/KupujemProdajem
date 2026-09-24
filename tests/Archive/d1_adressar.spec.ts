@@ -1,8 +1,8 @@
 import {test , expect, Locator} from '@playwright/test'
 
-const LISTING_URL = '/'
+test.use( {headless: false, launchOptions: { slowMo: 0 }})
 
-test.use({headless: true, launchOptions: {slowMo: 0}});
+const LISTING_URL = '/'
 
 function appears(locator: Locator, timeout = 5000): Promise<boolean> {
   return locator
@@ -43,7 +43,7 @@ test ('Dodati u adresar otvara login formu', async ({page}) => {
         const email = page.locator('form').filter({ hasText: 'E-mail adresaUlogujte se' }).getByLabel('email')
         await expect(email).toBeVisible()
 
-        const ulogujteSe= page.getByText('Ulogujte se').nth(2) // Codegen mi je dao ovaj locator nisam uspeo sam da ga napravim
+        const ulogujteSe= page.getByText('Prijavite se').nth(2) // Codegen mi je dao ovaj locator nisam uspeo sam da ga napravim
         await expect (ulogujteSe).toBeVisible()
 
         break 
