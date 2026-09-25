@@ -4,6 +4,8 @@ Automated tests for kupujemprodajem.com, written in Playwright with TypeScript.
 Runs cross-browser (Chromium, Firefox, WebKit) and independent of operating
 system (Windows, Linux, macOS).
 
+[![Playwright Tests](https://github.com/DarioKonta/KupujemProdajem/actions/workflows/playwright.yml/badge.svg)](https://github.com/DarioKonta/KupujemProdajem/actions/workflows/playwright.yml)
+
 ## Scenarios covered
 
 1. **Search filter result count** (`tests/search-filter.spec.ts`)
