@@ -1,38 +1,28 @@
-import {test, expect } from '@playwright/test'
-import { ListingPage } from '../pages/ListingPage';
-import { FilterPanel } from '../pages/Z1_FilterPanel';
-import { ResultsPage } from '../pages/Z1_ResultsPage';
+import {test, expect } from './fixtures'
+import { searchCriteria } from './data/searchCriteria'
 
 const MIN_EXPECTED_RESULTS = 800;
 
-test.use({headless: true, launchOptions: {slowMo: 0}});
+test.use({headless: true, launchOptions: {slowMo: 0}});    // Ovde je samo radi testiranja, bice obrisano
 
-test(`Search filter Odeća | Ženska > Bluze vraca vise od ${MIN_EXPECTED_RESULTS} rezulata`, async ({ page }) => {
-    const listing = new ListingPage(page);
-    await listing.open();
-    
-    await listing.acceptCookies();
-    await listing.closePopup();
-
-    await listing.openFilterPanel();
+test(`Search filter Odeća | Ženska > Bluze vraca vise od ${MIN_EXPECTED_RESULTS} rezulata`, async ({ listingPage, filterPanel }) => {
+    await listingPage.openFilterPanel();
     
     // ==================== Osnovni filteri ====================
-    const filters = new FilterPanel(page);
-    await filters.selectKategorija();
-    await filters.selectGrupa();
+    await filterPanel.selectKategorija(searchCriteria.kategorija);
+    await filterPanel.selectGrupa(searchCriteria.grupa);
     
     // ==================== Cena ====================
-    await filters.fillCenaOd('100');
-    await filters.selectDin();
-    await filters.checkSamoSaCenom();
+    await filterPanel.fillCenaOd(searchCriteria.cenaOd);
+    await filterPanel.selectDin();
+    await filterPanel.checkSamoSaCenom();
 
     // ==================== Dodatni filteri ====================
-    await filters.selectStanje();
+    await filterPanel.selectStanje(searchCriteria.stanje);
     
-    const results = await filters.applyFilters();
+    const results = await filterPanel.applyFilters();
 
     const count = await results.numberOfItems();
-
 
     expect(count).toBeGreaterThan(MIN_EXPECTED_RESULTS);
 }) 

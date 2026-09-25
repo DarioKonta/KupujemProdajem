@@ -1,4 +1,5 @@
 import {Page, Locator} from '@playwright/test'
+import { appears } from '../helpers/locators';
 
 export class ListingPage {
     readonly newestAdsSection: Locator;
@@ -13,7 +14,7 @@ export class ListingPage {
     }
 
     async open(): Promise<void> {
-        await this.page.goto('/');
+        await this.page.goto('/'); // URL se nalazi u playwright.confing.ts 
         await this.adLinks.first().waitFor({ state: 'visible' });
     }
 
@@ -22,12 +23,7 @@ export class ListingPage {
             .locator('[class*="Grid-module"]')
             .getByRole('button', { name: 'Prihvatam' })
 
-        const visible = await cookies
-            .waitFor({ state: 'visible', timeout: 1000 })
-            .then(() => true)
-            .catch(() => false)
-
-        if (visible) {
+        if (await appears(cookies, 1000)) {
             await cookies.click()
         }
     }
@@ -36,14 +32,9 @@ export class ListingPage {
         const closePopupBtn = this.page
             .locator('iframe[title="Dijalog Prijavljivanje pomoću Google-a"]')
             .contentFrame()
-            .getByRole('button', { name: 'Затвори' })
+            .getByRole('button', { name: 'Затвори' })  // Nisam uspeo da nadjem stabilniji locator
 
-        const visible = await closePopupBtn
-            .waitFor({ state: 'visible', timeout: 1000 })
-            .then(() => true)
-            .catch(() => false)
-
-        if (visible) {
+        if (await appears(closePopupBtn, 1000)) {
             await closePopupBtn.click()
         }
     }

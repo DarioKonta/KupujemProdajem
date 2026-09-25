@@ -1,6 +1,8 @@
 import { Page, Locator} from '@playwright/test'
 import { LoginModal } from './Z2_LoginModal'
+import { appears
 
+ } from '../helpers/locators';
 export class AdPage {
     readonly addButton: Locator;
 
@@ -8,11 +10,8 @@ export class AdPage {
         this.addButton = page.locator('button').filter({ hasText: 'Dodajte u Adresar'});
     }
 
-    async hasAddToAdresarButton(timeout = 5000): Promise<boolean> {
-        return this.addButton
-            .waitFor({state: 'visible', timeout})
-            .then(() => true)
-            .catch(() => false);
+    async hasAddToAdresarButton(): Promise<boolean> {
+        return appears(this.addButton, 5000)
     }
 
     async addToAdresar(): Promise<LoginModal> {

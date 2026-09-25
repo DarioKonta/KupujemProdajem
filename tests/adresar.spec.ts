@@ -1,39 +1,29 @@
-import { test, expect} from '@playwright/test'
-import { ListingPage } from '../pages/ListingPage'
-import { AdPage } from '../pages/Z2_AdPage'
+import { test, expect } from './fixtures'
 
-test.use( {headless: true, launchOptions: { slowMo: 0 }})
+test.use( {headless: true, launchOptions: { slowMo: 0 }})   // Ovde je samo radi testiranja, bice obrisano
 
-test('Dodavanje oglasa u adresar otvara login dialog', async ({page}) => {
-    const listing = new ListingPage(page);
-    await listing.open();
-
-    await listing.acceptCookies();
-    await listing.closePopup();
-
+test('Dodavanje oglasa u adresar otvara login dialog', async ({ listingPage, adPage }) => {
     let found = false;
-    const total = await listing.adCount();
+    const total = await listingPage.adCount();
 
-    for(let i = 0; i < total; i++) {
-        console.log(`Iteracija ${i+1}`)
-        await listing.openAd(i)
+    for(let i = 0; i < total; i++) {    // Desava se da neki oglas nema dodaj u adresar, zato se prolazi kroz sve oglase
+        await listingPage.openAd(i)
 
-        const ad = new AdPage(page);
-        const hasButton = await ad.hasAddToAdresarButton();
+        const hasButton = await adPage.hasAddToAdresarButton();
 
         console.log(`Oglas ${i+1} - Dugme prisutno: ${hasButton}`);
 
-        if(!hasButton) {
-            await listing.open();
+        if(!hasButton) { 
+            await listingPage.open();
             continue;
         }
 
         found = true;
-        const login = await ad.addToAdresar();
+        const login = await adPage.addToAdresar();
         await expect(login.heading()).toBeVisible();
         await expect(login.facebookLoginButton()).toBeVisible();
         break
     }
 
-    expect(found, 'Nijedan oglas nije imao dugme "Dodaj u Adresar"').toBe(true);
+    expect(found, 'Nijedan oglas nije imao dugme "Dodaj u Adresar"').toBe(true);    // Edge case
 })

@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test'
 import { ResultsPage } from './Z1_ResultsPage';
+import { appears } from '../helpers/locators';
 
 export class FilterPanel {
     readonly root: Locator
@@ -9,17 +10,17 @@ export class FilterPanel {
         this.root = page.locator('[class*="searchFilters"]');
     }
 
-    async selectKategorija(): Promise<void> {
+    async selectKategorija(kategorija: string): Promise<void> {
         await this.root.getByRole('combobox', { name: 'categoryId' }).click();
-        await this.root.getByRole('option', { name: 'Odeća | Ženska' }).click();
+        await this.root.getByRole('option', { name: kategorija }).click();
     }
 
-    async selectGrupa(): Promise<void> {
-        await this.root.getByRole('option', { name: 'Bluze' }).click();
+    async selectGrupa(grupa: string): Promise<void> {
+        await this.root.getByRole('option', { name: grupa }).click();
     }
 
-    async fillCenaOd(iznos: string): Promise<void> {
-        await this.root.getByRole('textbox', { name: 'priceFrom' }).fill(iznos);
+    async fillCenaOd(cenaOd: string): Promise<void> {
+        await this.root.getByRole('textbox', { name: 'priceFrom' }).fill(cenaOd);
     }
 
     async selectDin(): Promise<void> {
@@ -27,27 +28,25 @@ export class FilterPanel {
     }
 
     async checkSamoSaCenom(): Promise<void> {
-        await this.root.getByRole('checkbox', { name: 'hasPrice Samo sa cenom' }).click();
+        await this.root.getByRole('checkbox', { name: 'hasPrice Samo sa cenom' }).click(); 
     }
 
-    async selectStanje(): Promise<void> {
-        const trigger = this.page
+    async selectStanje(stanja: readonly string[]): Promise<void> { // Iz fixtures.ts stanja[] je readonly string[]
+        const stanjeCombobox = this.page
             .locator('input[aria-label="condition"]')
-            .locator('xpath=ancestor::div[contains(@class, "-control")][1]');
-            
-        const nekorisceno = this.page.getByRole('option', { name: 'Nekorišćeno (polovno)' });
+            .locator('xpath=ancestor::div[contains(@class, "-control")][1]') // Jako nezgodan locator ali jedini koji je ostao konstantan
 
-        await trigger.click();
-        await this.page.getByRole('option', { name: 'Novo' }).click();
+        await stanjeCombobox.click()
 
-        // Ukoliko combobox ne ostane otvoren, klikni ga ponovo
-        const stillOpen = await nekorisceno.isVisible().catch(() => false)
-        if (!stillOpen) {
-            await trigger.click();
+        for (const stanje of stanja) {
+            const option = this.page.getByRole('option', { name: stanje }) 
+
+            if (!(await appears(option, 1000))) {
+            await stanjeCombobox.click()
+            }
+            await option.click()
         }
-
-        await nekorisceno.click();
-        }
+    }
 
     async applyFilters(): Promise<ResultsPage> {
         await this.root.getByRole('button', { name: 'Primenite filtere' }).click();
