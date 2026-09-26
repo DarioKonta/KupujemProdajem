@@ -2,7 +2,6 @@ import { test, expect } from './fixtures';
 import { searchCriteria } from './data/searchCriteria';
 
 const MIN_EXPECTED_RESULTS = 800;
-const unused = 1;
 
 test.use({ headless: true, launchOptions: { slowMo: 0 } }); // Ovde je samo radi testiranja, bice obrisano
 
