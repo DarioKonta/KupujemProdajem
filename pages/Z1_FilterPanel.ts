@@ -19,8 +19,8 @@ export class FilterPanel {
         await this.root.getByRole('option', { name: grupa }).click();
     }
 
-    async fillCenaOd(cenaOd: string): Promise<void> {
-        await this.root.getByRole('textbox', { name: 'priceFrom' }).fill(cenaOd);
+    async fillCenaOd(cenaOd: number): Promise<void> {
+        await this.root.getByRole('textbox', { name: 'priceFrom' }).fill(String(cenaOd));
     }
 
     async selectDin(): Promise<void> {

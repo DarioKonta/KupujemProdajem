@@ -23,4 +23,17 @@ export class ResultsPage{
 
         return parseInt(resultText.replace(/\D/g, ''), 10);
     }
+
+    async sortJeftinije(): Promise<void> {
+        await this.page.getByLabel('Sortiraj').click();
+        await this.page.getByRole('button', { name: 'Jeftinije' }).click()
+    }
+
+    async firstItemPrice(): Promise<number>{
+        const price = await this.results.first().locator('[class*= "priceText"]').textContent();
+
+        if (price === null) throw new Error('Cena prvog oglasa nije pronađena')
+
+        return parseInt(price.replace(/\D/g, ''), 10);
+    }
 }
