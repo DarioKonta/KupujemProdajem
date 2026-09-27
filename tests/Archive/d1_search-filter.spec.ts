@@ -7,7 +7,7 @@ test.use({ headless: false, launchOptions: { slowMo: 0 } });
 test('Search filter Odeća | Ženska > Bluze vraca vise od 1000 rezulata', async ({ page }) => {
   await page.goto('/');
 
-  // ==================== Osnovni filteri ====================
+  // = == == == == == === Osnovni filteri = == == == == == ===
   await page.getByRole('button', { name: 'Sve kategorije' }).click();
   await page.getByRole('button', { name: 'Odeća i obuća' }).click();
   await page.getByRole('button', { name: 'Ženska odeća' }).click();
@@ -17,12 +17,12 @@ test('Search filter Odeća | Ženska > Bluze vraca vise od 1000 rezulata', async
     .getByLabel('Bluze')
     .click();
 
-  // ==================== Cena ====================
+  // = == == == == == === Cena = == == == == == ===
   await page.locator('section').getByLabel('priceFrom').fill('100');
   await page.getByRole('radio', { name: 'rsd' }).check();
   await page.getByRole('checkbox', { name: 'Samo sa cenom' }).check();
 
-  // ==================== Dodatni filteri ====================
+  // = == == == == == === Dodatni filteri = == == == == == ===
   await page.getByRole('checkbox', { name: 'Novo' }).check();
   await page.getByRole('checkbox', { name: 'Nekorišćeno (polovno)' }).check();
 

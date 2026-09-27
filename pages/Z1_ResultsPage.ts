@@ -15,7 +15,7 @@ export class ResultsPage {
     const resultText = await this.page
       .locator('div')
       .filter({ has: this.page.getByRole('button', { name: 'Početna' }) })
-      .getByText(/\d+\s*oglasa/)
+      .getByText(/\d+\s*oglas/)
       .last()
       .textContent();
 

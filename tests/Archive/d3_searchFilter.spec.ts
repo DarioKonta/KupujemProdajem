@@ -18,17 +18,17 @@ test(`Search filter Odeća | Ženska > Bluze vraca vise od ${MIN_EXPECTED_RESULT
 
   await listing.openFilterPanel();
 
-  // ==================== Osnovni filteri ====================
+  // = == == == == == === Osnovni filteri = == == == == == ===
   const filters = new FilterPanel(page);
   await filters.selectKategorija();
   await filters.selectGrupa();
 
-  // ==================== Cena ====================
+  // = == == == == == === Cena = == == == == == ===
   await filters.fillCenaOd('100');
   await filters.selectDin();
   await filters.checkSamoSaCenom();
 
-  // ==================== Dodatni filteri ====================
+  // = == == == == == === Dodatni filteri = == == == == == ===
   await filters.selectStanje();
 
   const results = await filters.applyFilters();
