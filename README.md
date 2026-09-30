@@ -9,7 +9,7 @@
 
 ## Scenarios covered
 
-**Search filter result count** (`tests/search-filter.spec.ts`)
+**Search filter result count** (`tests/searchFilter.spec.ts`)
 
 - Kategorija: "Odeća | Ženska"
 - Grupa: "Bluze"
@@ -57,7 +57,7 @@ npx playwright test
 Run a single spec file:
 
 ```bash
-npx playwright test tests/search-filter.spec.ts
+npx playwright test tests/searchFilter.spec.ts
 npx playwright test tests/adresar.spec.ts
 ```
 
@@ -172,7 +172,7 @@ docker run --rm kp-playwright-tests
 
 ## Notes
 
-- The result-count threshold in `search-filter.spec.ts` reflects live site
+- The result-count threshold in `searchFilter.spec.ts` reflects live site
   data observed during development, not the assignment's original number,
   since inventory changes over time. See the comment above the constant in
   that file for details.
